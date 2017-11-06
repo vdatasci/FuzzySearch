@@ -1,0 +1,95 @@
+
+<html>
+<head>
+
+  // CDN:
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.10.1.js"></script>
+  
+  // CSS Styling
+  <style type="text/css">
+    input {
+    display: block;
+    padding: 8px;
+    margin: 8px 16px;
+    border: 1px solid #eee;
+}
+  </style>
+
+  // Title of Webpage
+  <title>jQuery: fuzzy-search</title>
+
+  
+    
+
+
+
+
+<script type='text/javascript'>
+$(window).load(function(){
+var grep = function (array, callback, invert) {    
+
+    var returnArray = [],
+        callbackValue;
+    
+    // we negate the invert
+    invert = !!invert;
+
+    // Go through the array, only saving the items
+    // that pass the validator function
+    for (var i = array.length; i--;) {
+        callbackValue = !!callback(array[i], i);
+        if (invert !== callbackValue) {
+            returnArray.push(array[i]);
+        }
+    }
+    
+    return returnArray;
+};
+
+var fuzzySearch = function (text, query) {
+    text = text.toLowerCase();
+    query = query.toLowerCase().split('');
+    
+    return !grep(query, function (value) {
+        return text.indexOf(value) === -1;
+    }).length;
+};
+
+var $list = $('#list');
+
+$('#search').on('keyup', function () {
+    var value = this.value;
+    $list.find('li').each(function () {
+        $(this).toggle(fuzzySearch(this.innerText, value));
+    });
+});
+
+
+
+
+arr = ['hello','how are you'];
+
+
+for(var i=0; i<arr.length;i++){
+    document.getElementById('list').innerHTML += '<li><a href="' + arr[i] + '">'+ arr[i] + '</a></li>';
+}
+
+</script>
+</head>
+
+
+
+<body>
+  
+<label for="limit-output">Your search query...</label>
+<input type="search" id="search" placeholder="Your search query...">
+
+
+<ul id="list">
+</ul>
+  
+
+</body>
+
+</html>
+
